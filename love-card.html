@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .heart {
+            color: red;
+            font-size: 80px;
+            animation: pulse 1.5s infinite;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .message {
+            margin: 20px 0;
+            color: #666;
+            font-size: 18px;
+            display: none;
+            animation: fadeIn 1s;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .click-me {
+            color: #999;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        img {
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            margin: 20px 0;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- Image that will change on click -->
+        <img src="happy1.jpeg" alt="Romantic image" id="main-image">
+        <div class="heart" onclick="showMessage()">❤️</div>
+        <div class="click-me">Click the heart!</div>
+        <div class="message" id="message">
+            <!-- This is where the romantic messages in Mandarin will be displayed -->
+        </div>
+    </div>
+
+    <script>
+        // Array of romantic messages in Mandarin
+        const messages = [
+            "你是我生命中的阳光，点亮了我的每一天。🌞",
+            "每次想到你，我的心都会变得温暖。❤️",
+            "我永远不会停止爱你，因为你是我的全部。💖",
+            "和你在一起的每分每秒都让我感到幸福。😊",
+            "你的微笑是我见过的最美的风景。🌸",
+            "你就是我的梦中情人，永远不会改变。💫",
+            "每当你在我身边，我的世界就完美无缺。🌹",
+            "因为有你，我的生活才充满了意义。💞",
+            "你是我心中永远的唯一。💕",
+            "我只想陪你到永远，直到时光的尽头。🌟"
+        ];
+
+        // Array of image filenames (ensure these images are in the same folder)
+        const images = [
+            "happy1.jpeg",
+            "happy2.jpeg",
+            "happy3.jpeg",
+            "happy4.jpeg",
+            "happy5.jpeg"
+        ];
+
+        let currentIndex = 0;
+
+        function showMessage() {
+            const message = document.getElementById('message');
+            const image = document.getElementById('main-image');
+
+            // Change message and image
+            message.innerHTML = messages[currentIndex];
+            image.src = images[currentIndex];
+
+            message.classList.add('visible');
+
+            const clickMe = document.querySelector('.click-me');
+            clickMe.style.display = 'none';
+
+            // Create falling hearts effect
+            for (let i = 0; i < 20; i++) {
+                createHeart();
+            }
+
+            // Move to the next message and image
+            currentIndex = (currentIndex + 1) % messages.length;
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.top = '-20px';
+            heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            heart.style.animation = 'fall ' + (Math.random() * 3 + 2) + 's linear';
+            heart.style.zIndex = '-1';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        document.styleSheets[0].insertRule(`
+            @keyframes fall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                }
+            }
+        `, 0);
+    </script>
+</body>
+</html>
